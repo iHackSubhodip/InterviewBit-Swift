@@ -101,6 +101,101 @@ func largestNumber(_ A: [Int]) -> String {
 
 largestNumber([3, 30, 34, 5, 9])
 
+/*  Largest Number [https://www.interviewbit.com/problems/spiral-order-matrix-ii/]
+ 
+ 4. Question:
+ 
+ Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+ 
+ Example:
+ 
+ Given n = 3,
+ 
+ You should return the following matrix:
+ 
+ [
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+ ]
+ 
+ */
 
+func generateMatrix(_ A: Int) -> [[Int]] {
+    guard A > 0 else { return [[Int]]() }
+    var result = Array(repeating: Array(repeating: 0, count: A), count: A)
+    var number = 1
+    if A == 1{
+        result[0][0] = 1
+    }
+    for layer in 0..<A/2{
+        let start = layer
+        let end = A - layer - 1
+        
+        for i in start..<end{
+            result[start][i] = number
+            number += 1
+        }
+        
+        for i in start..<end{
+            result[i][end] = number
+            number += 1
+        }
+        
+        for i in stride(from: end, to: start, by: -1){
+            result[end][i] = number
+            number += 1
+        }
+        
+        for i in stride(from: end, to: start, by: -1){
+            result[i][start] = number
+            number += 1
+        }
+        
+        if A % 2 != 0 {
+            result[A / 2][A / 2] = A * A
+        }
+    }
+    
+    return result
+}
 
+generateMatrix(3)
 
+/*  First Missing Integer [https://www.interviewbit.com/problems/first-missing-integer/]
+ 
+ 5. Question:
+ 
+ Given an unsorted integer array, find the first missing positive integer.
+ 
+ Example:
+ 
+ Given [1,2,0] return 3,
+ 
+ [3,4,-1,1] return 2,
+ 
+ [-8, -7, -6] returns 1
+ 
+ Your algorithm should run in O(n) time and use constant space.
+ 
+ */
+
+func firstMissingPositive(_ A: inout [Int]) -> Int {
+    guard A.count > 0 else { return 1 }
+    
+    for i in 0..<A.count{
+        while A[i] >= 1 && A[i] <= A.count && A[A[i] - 1] != A[i]{
+            A.swapAt(i, A[i] - 1)
+        }
+    }
+    
+    for i in 0..<A.count{
+        if A[i] != i + 1{
+            return i + 1
+        }
+    }
+    return A.count + 1
+}
+
+var arr = [3,4,-1,1]
+firstMissingPositive(&arr)
