@@ -199,3 +199,47 @@ func firstMissingPositive(_ A: inout [Int]) -> Int {
 
 var arr = [3,4,-1,1]
 firstMissingPositive(&arr)
+
+
+/*  Add One To Number [https://www.interviewbit.com/problems/add-one-to-number/]
+ 
+ 6. Question:
+ 
+ Given a non-negative number represented as an array of digits,
+ 
+ add 1 to the number ( increment the number represented by the digits ).
+ 
+ The digits are stored such that the most significant digit is at the head of the list.
+ 
+ Example:
+ 
+ If the vector has [1, 2, 3]
+ 
+ the returned vector should be [1, 2, 4]
+ 
+ as 123 + 1 = 124.
+ 
+ */
+
+func plusOne(_ A: inout [Int]) -> [Int] {
+    var index = A.count - 1
+    
+    if A.first == 0 {
+        A.removeFirst()
+        index -= 1
+    }
+    while index >= 0{
+        if A[index] < 9{
+            A[index] += 1
+            return A
+        }
+        A[index] = 0
+        index -= 1
+    }
+    A.insert(1, at: 0)
+    return A
+}
+
+
+var arr1 = [ 0, 3, 7, 6, 4, 0, 5, 5, 5 ]
+plusOne(&arr1)
